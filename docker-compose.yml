@@ -12,6 +12,7 @@ services:
       - ./backend/app:/app
     ports:
       - "8000:8000"
+    network_mode: bridge
   frontend:
     restart: always
     command : npm start
@@ -21,5 +22,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    network_mode: bridge
     depends_on:
       - backend
