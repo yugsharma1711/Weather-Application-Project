@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  app:
+    restart: always
+    container_name: backend
+    command : sh -c "python manage.py migrate &&
+                      python manage.py runserver 0.0.0.0:8000"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    network_mode: bridge
+    ports:
+      - "8000:8000"
