@@ -5,16 +5,20 @@ This is a weather application that provides accurate weather data and descriptio
 To get started with the weather application, you will need to have Docker and Docker Compose installed on your system. Once you have Docker and Docker Compose installed, follow these steps:
 
 Clone the repository:
-```ok
+```
+ok
 ```
 Change into the project directory:
-```cd Weather-Application-Project
+```
+cd Weather-Application-Project
 ```
 Build the docker containers in frontend and backend by navigating to them and running
-```docker-compose build
+```
+docker-compose build
 ```
 Start the docker containers
-```docker-compose up
+```
+docker-compose up
 ```
 The frontend should be accessible at localhost:3000 and backend att 0.0.0.1:8000
 
