@@ -6,7 +6,7 @@ To get started with the weather application, you will need to have Docker and Do
 
 Clone the repository:
 ```
-ok
+https://github.com/yugsharma1711/Weather-Application-Project.git
 ```
 Change into the project directory:
 ```
