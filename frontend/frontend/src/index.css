@@ -13,8 +13,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: url('./assets/clear.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 p {
@@ -98,11 +98,12 @@ h1 {
 .bold {
   font-weight: 700;
 }
-
-
-
-
-
+img{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: -100;
+}
 
 
 

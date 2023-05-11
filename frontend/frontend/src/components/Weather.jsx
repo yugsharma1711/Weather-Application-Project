@@ -1,11 +1,14 @@
 import axios from 'axios'
 import { useState } from 'react';
 import { useEffect } from 'react';
+import Clouds from '../assets/clouds.jpg';
+import Clear from '../assets/clear.jpg';
 const Weather = ()=>{
     const [data, setData] = useState({});
     const [location, setLocation] = useState('');
     const [date, setDate] = useState();
     var d = new Date((new Date().getTime()))
+    const [background, setBackground] = useState(Clouds);
     d = d.toISOString()
     const searchLocation = async (event) => {
         console.log(event.target.value);
@@ -17,7 +20,13 @@ const Weather = ()=>{
             const timezoneOffset = response.data.timezone * 1000;
             const updatedDate = new Date(Date.now() + timezoneOffset).toISOString();
             setDate(updatedDate);
-        });
+            // if (data.weather[0].main == 'Clear'){
+            //   setBackground(Clear);
+            // }
+            // else if (data.weather[0].main == 'Clouds'){
+            //   setBackground(Clouds)
+            // }
+          });
         
           setLocation('');
         }
@@ -33,15 +42,15 @@ const Weather = ()=>{
           clearInterval(interval);
         };
       }, [data]);
-      const formatTime = (timeString) => {
-        const options = {
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric',
-          hour12 : 'false'
-        };
-        return new Date(timeString).toLocaleTimeString('en-us');
-      };
+      useEffect(() => {
+        if (data.weather && data.weather.length > 0) {
+          if (data.weather[0].main === 'Clear') {
+            setBackground(Clear);
+          } else if (data.weather[0].main === 'Clouds') {
+            setBackground(Clouds);
+          }
+        }
+      }, [data]);
       const formatDate = (timeString) => {
         const options = {
           year: 'numeric',
@@ -52,7 +61,8 @@ const Weather = ()=>{
         return new Date(timeString).toLocaleDateString(undefined, options);
       };
     return (
-        <>
+        <div className='app'>
+          <img src= {background} alt="" />
             <div className="search">
                 <input
                 value={location}
@@ -62,14 +72,15 @@ const Weather = ()=>{
                 type="text" />
             </div>
             <div className="container">
+                {/* <Background weatherDescription = {data.weather ? data.weather[0].main : null} /> */}
                 <div className="top">
                     <div className="location">
                         <p>{data.name} {data.sys ? <p style = {{'font-size' : '20px'}}>{data.sys.country}</p> : null}</p>
-                        {data.sys && (
+                        {date && (
                             <div>
                                 Current Date: {formatDate(date)}
                                 <br />
-                                Current Time: {formatTime(date)}
+                                Current Time: {date.slice(11, 19)}
                                 
                             </div>
                             )
@@ -99,7 +110,7 @@ const Weather = ()=>{
                 </div>
         }
         </div>
-    </>
+    </div>
     );
 }
 export default Weather;
