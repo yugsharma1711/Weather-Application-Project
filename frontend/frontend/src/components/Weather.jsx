@@ -1,14 +1,20 @@
 import axios from 'axios'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import Clouds from '../assets/clouds.jpg';
-import Clear from '../assets/clear.jpg';
+import clear_morning from '../assets/clear_morning.jpg';
+import clear_noon from '../assets/clear_noon.jpg'
+import clouds_morning from '../assets/clouds_morning.jpg';
+import clouds_night from '../assets/clouds_night.jpg';
+import haze_morning from '../assets/haze_morning.jpg';
+import haze_night from '../assets/haze_night.jpg';
+import clear_night from '../assets/clear_night.jpg'
 const Weather = ()=>{
     const [data, setData] = useState({});
     const [location, setLocation] = useState('');
     const [date, setDate] = useState();
+    const [hour, setHour] = useState();
     var d = new Date((new Date().getTime()))
-    const [background, setBackground] = useState(Clouds);
+    const [background, setBackground] = useState(clear_morning);
     d = d.toISOString()
     const searchLocation = async (event) => {
         console.log(event.target.value);
@@ -19,18 +25,15 @@ const Weather = ()=>{
             // console.log(typeof response.data.timezone)
             const timezoneOffset = response.data.timezone * 1000;
             const updatedDate = new Date(Date.now() + timezoneOffset).toISOString();
-            setDate(updatedDate);
-            // if (data.weather[0].main == 'Clear'){
-            //   setBackground(Clear);
-            // }
-            // else if (data.weather[0].main == 'Clouds'){
-            //   setBackground(Clouds)
-            // }
+            setDate(updatedDate)
+            setHour(parseInt(updatedDate.slice(11, 14)))
           });
-        
           setLocation('');
         }
       };
+      useEffect(() => {
+        updateBackground();
+      }, [hour]);
       useEffect(() => {
         const interval = setInterval(() => {
           const currentTime = new Date();
@@ -42,15 +45,40 @@ const Weather = ()=>{
           clearInterval(interval);
         };
       }, [data]);
-      useEffect(() => {
-        if (data.weather && data.weather.length > 0) {
+      const updateBackground = () => {
+        if (date && data.weather && data.weather.length > 0) {
           if (data.weather[0].main === 'Clear') {
-            setBackground(Clear);
-          } else if (data.weather[0].main === 'Clouds') {
-            setBackground(Clouds);
+            if(hour > 6 && hour < 12){
+              setBackground(clear_morning)
+            }
+            else if(hour < 6){
+              setBackground(clear_night);
+            }
+            else{
+              console.log("Called")
+              setBackground(clear_noon)
+            }
           }
+          else if(data.weather[0].main === 'Clouds'){
+            console.log("Cloudy Weather")
+            if (hour > 6 && hour < 18){
+              setBackground(clouds_morning)
+            }
+            else{
+              setBackground(clouds_night)
+            }
+          }
+          else if(data.weather[0].main == 'Haze'){
+            if (hour > 6 && hour < 18){
+              setBackground(haze_morning)
+            }
+            else{
+              setBackground(haze_night)
+            }
+          }
+
         }
-      }, [data]);
+      }
       const formatDate = (timeString) => {
         const options = {
           year: 'numeric',

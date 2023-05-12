@@ -12,7 +12,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./assets/clear.jpg');
+  background-image: url('./assets/clear_noon.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -104,6 +104,3 @@ img{
   width: 100%;
   z-index: -100;
 }
-
-
-
